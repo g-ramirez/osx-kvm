@@ -1,0 +1,223 @@
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+  <name>macos-ventura</name>
+  <uuid>f8e8afe5-ab44-4cce-81ce-95bd357d2cef</uuid>
+  <metadata>
+    <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
+      <libosinfo:os id="http://freebsd.org/freebsd/14.2"/>
+    </libosinfo:libosinfo>
+  </metadata>
+  <memory unit="KiB">16384000</memory>
+  <currentMemory unit="KiB">16384000</currentMemory>
+  <vcpu placement="static">8</vcpu>
+  <os>
+    <type arch="x86_64" machine="pc-q35-9.2">hvm</type>
+    <loader readonly="yes" type="pflash" format="raw">/data1/macvm/macos-ventura/OVMF_CODE.fd</loader>
+    <nvram format="raw">/data1/macvm/macos-ventura/OVMF_VARS-1920x1080.fd</nvram>
+    <boot dev="hd"/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <vmport state="off"/>
+  </features>
+  <cpu mode="custom" match="exact" check="none">
+    <model fallback="allow" vendor_id="GenuineIntel">Haswell-v2</model>
+    <vendor>Intel</vendor>
+    <topology sockets="1" dies="1" clusters="1" cores="4" threads="2"/>
+    <feature policy="require" name="tsc"/>
+    <feature policy="require" name="avx"/>
+    <feature policy="require" name="sse"/>
+    <feature policy="require" name="sse2"/>
+    <feature policy="require" name="ssse3"/>
+    <feature policy="require" name="avx2"/>
+    <feature policy="require" name="sse4.2"/>
+    <feature policy="require" name="abm"/>
+    <feature policy="require" name="adx"/>
+    <feature policy="require" name="aes"/>
+    <feature policy="require" name="apic"/>
+    <feature policy="require" name="arat"/>
+    <feature policy="require" name="bmi1"/>
+    <feature policy="require" name="bmi2"/>
+    <feature policy="require" name="clflush"/>
+    <feature policy="require" name="cmov"/>
+    <feature policy="require" name="cx8"/>
+    <feature policy="require" name="cx16"/>
+    <feature policy="require" name="de"/>
+    <feature policy="require" name="f16c"/>
+    <feature policy="require" name="fma"/>
+    <feature policy="require" name="fsgsbase"/>
+    <feature policy="require" name="fxsr"/>
+    <feature policy="require" name="lm"/>
+    <feature policy="require" name="mca"/>
+    <feature policy="require" name="mce"/>
+    <feature policy="require" name="movbe"/>
+    <feature policy="require" name="msr"/>
+    <feature policy="require" name="mtrr"/>
+    <feature policy="require" name="nx"/>
+    <feature policy="require" name="pae"/>
+    <feature policy="require" name="pat"/>
+    <feature policy="require" name="pge"/>
+    <feature policy="require" name="popcnt"/>
+    <feature policy="require" name="pse36"/>
+    <feature policy="require" name="rdrand"/>
+    <feature policy="require" name="rdtscp"/>
+    <feature policy="require" name="sep"/>
+    <feature policy="require" name="smep"/>
+    <feature policy="require" name="syscall"/>
+    <feature policy="require" name="x2apic"/>
+    <feature policy="require" name="xgetbv1"/>
+    <feature policy="require" name="xsave"/>
+    <feature policy="require" name="xsaveopt"/>
+    <feature policy="require" name="topoext"/>
+    <feature policy="disable" name="pcid"/>
+    <feature policy="disable" name="erms"/>
+    <feature policy="disable" name="invpcid"/>
+    <feature policy="disable" name="pdpe1gb"/>
+    <feature policy="require" name="ibpb"/>
+    <feature policy="require" name="ssbd"/>
+    <feature policy="require" name="virt-ssbd"/>
+  </cpu>
+  <clock offset="utc">
+    <timer name="rtc" tickpolicy="catchup"/>
+    <timer name="pit" tickpolicy="delay"/>
+    <timer name="hpet" present="no"/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <pm>
+    <suspend-to-mem enabled="no"/>
+    <suspend-to-disk enabled="no"/>
+  </pm>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type="file" device="disk">
+      <driver name="qemu" type="qcow2" cache="writeback"/>
+      <source file="/data1/macvm/macos-ventura/disk.qcow2"/>
+      <target dev="sda" bus="sata"/>
+      <address type="drive" controller="0" bus="0" target="0" unit="0"/>
+    </disk>
+    <controller type="sata" index="0">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1f" function="0x2"/>
+    </controller>
+    <controller type="pci" index="0" model="pcie-root"/>
+    <controller type="pci" index="1" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="1" port="0x10"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0" multifunction="on"/>
+    </controller>
+    <controller type="pci" index="2" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="2" port="0x11"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x1"/>
+    </controller>
+    <controller type="pci" index="3" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="3" port="0x12"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x2"/>
+    </controller>
+    <controller type="pci" index="4" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="4" port="0x13"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x3"/>
+    </controller>
+    <controller type="pci" index="5" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="5" port="0x14"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x4"/>
+    </controller>
+    <controller type="pci" index="6" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="6" port="0x15"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x5"/>
+    </controller>
+    <controller type="pci" index="7" model="pcie-root-port">
+      <model name="pcie-root-port"/>
+      <target chassis="7" port="0x16"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x6"/>
+    </controller>
+    <controller type="pci" index="8" model="pcie-to-pci-bridge">
+      <model name="pcie-pci-bridge"/>
+      <address type="pci" domain="0x0000" bus="0x01" slot="0x00" function="0x0"/>
+    </controller>
+    <controller type="virtio-serial" index="0">
+      <address type="pci" domain="0x0000" bus="0x03" slot="0x00" function="0x0"/>
+    </controller>
+    <controller type="usb" index="0" model="ich9-ehci1">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1d" function="0x7"/>
+    </controller>
+    <controller type="usb" index="0" model="ich9-uhci1">
+      <master startport="0"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1d" function="0x0" multifunction="on"/>
+    </controller>
+    <controller type="usb" index="0" model="ich9-uhci2">
+      <master startport="2"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1d" function="0x1"/>
+    </controller>
+    <controller type="usb" index="0" model="ich9-uhci3">
+      <master startport="4"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1d" function="0x2"/>
+    </controller>
+    <interface type="bridge">
+      <mac address="52:54:00:e6:85:40"/>
+      <source bridge="virbr3"/>
+      <model type="virtio-net"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x0"/>
+    </interface>
+    <serial type="pty">
+      <target type="isa-serial" port="0">
+        <model name="isa-serial"/>
+      </target>
+    </serial>
+    <console type="pty">
+      <target type="serial" port="0"/>
+    </console>
+    <channel type="unix">
+      <target type="virtio" name="org.qemu.guest_agent.0"/>
+      <address type="virtio-serial" controller="0" bus="0" port="1"/>
+    </channel>
+    <input type="mouse" bus="ps2"/>
+    <input type="keyboard" bus="ps2"/>
+    <input type="keyboard" bus="usb">
+      <address type="usb" bus="0" port="1"/>
+    </input>
+    <input type="tablet" bus="usb">
+      <address type="usb" bus="0" port="2"/>
+    </input>
+    <input type="mouse" bus="usb">
+      <address type="usb" bus="0" port="3"/>
+    </input>
+    <graphics type="spice" autoport="yes">
+      <listen type="address"/>
+    </graphics>
+    <sound model="ich9">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x1b" function="0x0"/>
+    </sound>
+    <audio id="1" type="none"/>
+    <video>
+      <model type="vga" vram="268435456" heads="1" primary="yes"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x0"/>
+    </video>
+    <redirdev bus="usb" type="spicevmc">
+      <address type="usb" bus="0" port="4"/>
+    </redirdev>
+    <redirdev bus="usb" type="spicevmc">
+      <address type="usb" bus="0" port="5"/>
+    </redirdev>
+    <watchdog model="itco" action="reset"/>
+    <memballoon model="virtio">
+      <stats period="5"/>
+      <address type="pci" domain="0x0000" bus="0x04" slot="0x00" function="0x0"/>
+    </memballoon>
+    <rng model="virtio">
+      <backend model="random">/dev/urandom</backend>
+      <address type="pci" domain="0x0000" bus="0x05" slot="0x00" function="0x0"/>
+    </rng>
+  </devices>
+  <qemu:commandline>
+    <qemu:arg value="-device"/>
+    <qemu:arg value="isa-applesmc,osk=ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"/>
+    <qemu:arg value="-smbios"/>
+    <qemu:arg value="type=2"/>
+  </qemu:commandline>
+</domain>
